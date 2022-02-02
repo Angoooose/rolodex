@@ -1,5 +1,9 @@
+import Auth from './Auth/Auth';
+
 export default function App() {
   return (
-    <div>Hello.</div>
+    <div className="h-screen bg-neutral-300 py-20">
+      <Auth/>
+    </div>
   );
 }
