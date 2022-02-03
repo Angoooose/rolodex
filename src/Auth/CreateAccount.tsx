@@ -4,6 +4,8 @@ import Input from '../common/Input';
 import AuthComponent from '../Types/AuthComponent';
 
 import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
+import { setDoc, doc } from 'firebase/firestore';
+import { database } from '../index';
 
 export default function CreateAccount({ setAuthType }: AuthComponent) {
     const [isDisabled, setIsDisabled] = useState<boolean>(true);
@@ -21,7 +23,12 @@ export default function CreateAccount({ setAuthType }: AuthComponent) {
 
         if (!isDisabled && emailRef.current?.value && passwordRef.current?.value) {
             const auth = getAuth();
-            createUserWithEmailAndPassword(auth, emailRef.current.value, passwordRef.current.value);
+            createUserWithEmailAndPassword(auth, emailRef.current.value, passwordRef.current.value).then(res => {
+                setDoc(doc(database, 'users', res.user.uid), {
+                    uid: res.user.uid,
+                    contacts: [],
+                });
+            });
         }
     }
 
