@@ -1,10 +1,11 @@
 import { getAuth, onAuthStateChanged, signOut } from 'firebase/auth';
-import { doc, getDoc } from 'firebase/firestore';
+import { doc, getDoc, updateDoc } from 'firebase/firestore';
 import { useEffect, useState } from 'react';
 import { database } from '../index';
-import AuthData from '../Types/AuthData';
+import AuthData, { AddContact } from '../Types/AuthData';
+import Contact from '../Types/Contact';
 
-export default function useAuth(): [AuthData|undefined, () => Promise<void>] {
+export default function useAuth(): [AuthData|undefined, () => Promise<void>, AddContact] {
     const [authData, setAuthData] = useState<AuthData>();
     const auth = getAuth();
 
@@ -25,5 +26,19 @@ export default function useAuth(): [AuthData|undefined, () => Promise<void>] {
 
     const realSignOut = () => signOut(auth);
 
-    return [authData, realSignOut];
+    const addContact = (newContact: Contact) => {
+        if (authData?.status !== true || !authData.uid || !authData.contacts) return;
+        let newContacts = [...authData.contacts];
+        newContacts.push(newContact);
+        setAuthData({
+            ...authData,
+            contacts: newContacts,
+        } as AuthData);
+
+        updateDoc(doc(database, 'users', authData.uid), {
+            contacts: newContacts,
+        });
+    }
+
+    return [authData, realSignOut, addContact];
 }

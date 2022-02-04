@@ -5,3 +5,5 @@ export default interface AuthData {
     uid?: string,
     contacts?: Contact[],
 }
+
+export type AddContact = (newContact: Contact) => void;

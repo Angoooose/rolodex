@@ -4,9 +4,10 @@ import useAuth from './hooks/useAuth';
 import Auth from './Auth/Auth';
 import Contacts from './Contacts/Contacts';
 import Header from './Header/Header';
+import Contact from './Types/Contact';
 
 export default function App() {
-  const [authData, signOut] = useAuth();
+  const [authData, signOut, addContact] = useAuth();
   
   if (authData === undefined) return <div/>;
 
@@ -15,7 +16,7 @@ export default function App() {
       {authData?.status ? (
         <div>
           <Header/>
-          <Contacts/>
+          <Contacts contacts={authData.contacts as Contact[]} addContact={addContact}/>
         </div>
       ) : (
         <Auth/>

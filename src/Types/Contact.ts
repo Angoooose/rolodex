@@ -4,5 +4,6 @@ export default interface Contact {
     email?: string,
     phone?: string,
     address?: string,
-    note?: string,
+    birthday?: string,
+    notes?: string,
 }
