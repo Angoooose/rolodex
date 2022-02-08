@@ -4,21 +4,25 @@ import NewContactModal from './NewContactModal';
 
 import { ViewGridIcon, ViewListIcon } from '@heroicons/react/outline';
 import { useState } from 'react';
-import { AddContact } from '../Types/AuthData';
+import { AddContact, UpdateContact } from '../Types/AuthData';
 import Contact from '../Types/Contact';
+import ContactModal from './ContactModal';
 
 interface ContactProps {
     contacts: Contact[],
     addContact: AddContact,
+    updateContact: UpdateContact,
 }
 
-export default function Contacts({ contacts, addContact }: ContactProps) {
+export default function Contacts({ contacts, addContact, updateContact }: ContactProps) {
     const [viewType, setViewType] = useState<'grid'|'list'>('grid');
-    const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+    const [isNewContactModalOpen, setIsNewContactModalOpen] = useState<boolean>(false);
+    const [openedContact, setOpenedContact] = useState<Contact|null>(null);
 
     return (
         <div className="py-10">
-            <NewContactModal isOpen={isModalOpen} setIsOpen={setIsModalOpen} addContact={addContact}/>
+            <NewContactModal isOpen={isNewContactModalOpen} setIsOpen={setIsNewContactModalOpen} addContact={addContact}/>
+            <ContactModal contact={openedContact} setContact={setOpenedContact} updateContact={updateContact}/>
             <div className="flex justify-between">
                 <div className="text-3xl font-medium">Contacts</div>
                 <div className="bg-neutral-100 flex p-1 rounded-md shadow-md">
@@ -27,8 +31,8 @@ export default function Contacts({ contacts, addContact }: ContactProps) {
                 </div>
             </div>
             <div className={`flex -mx-4 flex-wrap ${viewType === 'list' ? 'flex-col justify-center items-center' : ''}`}>
-                {contacts.map(contact => <ContactCard contact={contact}/>)}
-                <CreateCard setIsModalOpen={setIsModalOpen}/>
+                {contacts.map(contact => <ContactCard contact={contact} setOpenedContact={setOpenedContact}/>)}
+                <CreateCard setIsModalOpen={setIsNewContactModalOpen}/>
             </div>
         </div>
     )

@@ -2,10 +2,10 @@ import { getAuth, onAuthStateChanged, signOut } from 'firebase/auth';
 import { doc, getDoc, updateDoc } from 'firebase/firestore';
 import { useEffect, useState } from 'react';
 import { database } from '../index';
-import AuthData, { AddContact } from '../Types/AuthData';
+import AuthData, { AddContact, UpdateContact } from '../Types/AuthData';
 import Contact from '../Types/Contact';
 
-export default function useAuth(): [AuthData|undefined, () => Promise<void>, AddContact] {
+export default function useAuth(): [AuthData|undefined, () => Promise<void>, AddContact, UpdateContact] {
     const [authData, setAuthData] = useState<AuthData>();
     const auth = getAuth();
 
@@ -40,5 +40,29 @@ export default function useAuth(): [AuthData|undefined, () => Promise<void>, Add
         });
     }
 
-    return [authData, realSignOut, addContact];
+    const updateContact = (index: number, newValues: Partial<Contact>): Promise<Contact> => {
+        return new Promise(async resolve => {
+            if (authData?.status !== true || !authData.uid || !authData.contacts) {
+                resolve(newValues as Contact);
+                return;
+            }
+
+            const newContacts = [...authData.contacts];
+            const newContact = { ...newContacts[index], ...newValues };
+            newContacts[index] =  newContact;
+    
+            setAuthData({
+                ...authData,
+                contacts: newContacts,
+            });
+    
+            await updateDoc(doc(database, 'users', authData.uid), {
+                contacts: newContacts,
+            });
+    
+            resolve(newContact);
+        });
+    }
+
+    return [authData, realSignOut, addContact, updateContact];
 }

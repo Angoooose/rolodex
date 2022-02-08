@@ -41,6 +41,7 @@ export default function NewContactModal({ isOpen, setIsOpen, addContact }: NewCo
             setIsOpen(false);
             addContact({
                 name: nameRef.current.value,
+                isFavorited: false,
                 company: companyRef?.current?.value,
                 email: emailRef?.current?.value,
                 phone: phoneRef?.current?.value,
