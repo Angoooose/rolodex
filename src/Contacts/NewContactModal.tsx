@@ -3,14 +3,16 @@ import Modal from 'react-modal';
 import Button from '../common/Button';
 import Input from '../common/Input';
 import { AddContact } from '../Types/AuthData';
+import Contact from '../Types/Contact';
 
 interface NewContactModalProps {
     isOpen: boolean,
     setIsOpen: Dispatch<boolean>,
     addContact: AddContact,
+    contacts: Contact[],
 }
 
-export default function NewContactModal({ isOpen, setIsOpen, addContact }: NewContactModalProps) {
+export default function NewContactModal({ isOpen, setIsOpen, addContact, contacts }: NewContactModalProps) {
     const nameRef = useRef<HTMLInputElement>(null);
     const companyRef = useRef<HTMLInputElement>(null); 
     const emailRef = useRef<HTMLInputElement>(null); 
@@ -40,6 +42,7 @@ export default function NewContactModal({ isOpen, setIsOpen, addContact }: NewCo
         if (nameRef.current?.value) {
             setIsOpen(false);
             addContact({
+                id: contacts.length + 1,
                 name: nameRef.current.value,
                 isFavorited: false,
                 company: companyRef?.current?.value,
@@ -68,7 +71,7 @@ export default function NewContactModal({ isOpen, setIsOpen, addContact }: NewCo
                         </div>
                         <div className="mt-3">
                             Notes
-                            <textarea ref={notesRef} className="w-full border shadow-sm border-teal-400 focus:ring-1 focus:ring-blue-400 focus:invalid:ring-red-500 focus:border-blue-400 invalid:border-red-500 focus:invalid:border-red-500 transition-all rounded-md outline-none py-1 px-2"/>
+                            <textarea ref={notesRef} className="w-full border shadow-sm border-neutral-400 focus:ring-1 focus:ring-violet-500 focus:border-violet-500 transition-all rounded-md outline-none py-1 px-2"/>
                         </div>
                     </div>
                 </div>

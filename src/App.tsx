@@ -16,7 +16,7 @@ export default function App() {
       {authData?.status ? (
         <div>
           <Header/>
-          <Contacts contacts={authData.contacts as Contact[]} addContact={addContact} updateContact={updateContact}/>
+          <Contacts authData={authData} addContact={addContact} updateContact={updateContact}/>
         </div>
       ) : (
         <Auth/>

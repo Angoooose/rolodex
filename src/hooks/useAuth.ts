@@ -40,27 +40,21 @@ export default function useAuth(): [AuthData|undefined, () => Promise<void>, Add
         });
     }
 
-    const updateContact = (index: number, newValues: Partial<Contact>): Promise<Contact> => {
-        return new Promise(async resolve => {
-            if (authData?.status !== true || !authData.uid || !authData.contacts) {
-                resolve(newValues as Contact);
-                return;
-            }
+    const updateContact = (id: number, newValues: Partial<Contact>) => {
+        if (!authData || !authData.contacts || !authData.uid) return;
 
-            const newContacts = [...authData.contacts];
-            const newContact = { ...newContacts[index], ...newValues };
-            newContacts[index] =  newContact;
-    
-            setAuthData({
-                ...authData,
-                contacts: newContacts,
-            });
-    
-            await updateDoc(doc(database, 'users', authData.uid), {
-                contacts: newContacts,
-            });
-    
-            resolve(newContact);
+        const newContacts = [...authData.contacts];
+        const contactIndex = newContacts.findIndex(c => c.id === id);
+        const newContact = { ...newContacts[contactIndex], ...newValues };
+        newContacts[contactIndex] =  newContact;
+
+        setAuthData({
+            ...authData,
+            contacts: newContacts,
+        });
+
+        updateDoc(doc(database, 'users', authData.uid), {
+            contacts: newContacts,
         });
     }
 

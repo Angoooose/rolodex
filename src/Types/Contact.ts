@@ -1,4 +1,5 @@
 export default interface Contact {
+    id: number,
     name: string,
     isFavorited: boolean,
     company?: string,

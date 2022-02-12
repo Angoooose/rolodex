@@ -1,4 +1,4 @@
-import { PhoneIcon, MailIcon, HomeIcon, CakeIcon } from '@heroicons/react/outline';
+import { PhoneIcon, MailIcon, HomeIcon, CakeIcon, StarIcon } from '@heroicons/react/outline';
 import Contact from '../Types/Contact';
 import { Dispatch } from 'react';
 
