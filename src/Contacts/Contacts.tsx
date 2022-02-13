@@ -1,39 +1,33 @@
+import { ViewGridIcon, ViewListIcon } from '@heroicons/react/outline';
+import { useContext, useEffect, useState } from 'react';
+import AuthContext from '../contexts/AuthContext';
+
+import Contact from '../Types/Contact';
+import ContactModal from './ContactModal';
 import ContactCard from './ContactCard';
 import CreateCard from './CreateCard';
 import NewContactModal from './NewContactModal';
 
-import { ViewGridIcon, ViewListIcon } from '@heroicons/react/outline';
-import { useEffect, useState } from 'react';
-import AuthData, { AddContact, DeleteContact, UpdateContact } from '../Types/AuthData';
-import Contact from '../Types/Contact';
-import ContactModal from './ContactModal';
-
-interface ContactProps {
-    authData: AuthData,
-    addContact: AddContact,
-    updateContact: UpdateContact,
-    deleteContact: DeleteContact,
-}
-
-export default function Contacts({ authData, addContact, updateContact, deleteContact }: ContactProps) {
+export default function Contacts() {
     const [viewType, setViewType] = useState<'grid'|'list'>('grid');
     const [isNewContactModalOpen, setIsNewContactModalOpen] = useState<boolean>(false);
     const [openedContact, setOpenedContact] = useState<Contact|null>(null);
+    const { authData } = useContext(AuthContext);
     
     useEffect(() => {
-        if (authData.status && authData.contacts) {
+        if (authData?.status && authData.contacts) {
             if (openedContact !== null) {
                 setOpenedContact(authData.contacts.find(c => c.id === openedContact.id) as Contact);
             }
         }
     }, [authData]);
 
-    if (!authData.contacts) return <div/>;
+    if (!authData?.contacts) return <div/>;
 
     return (
         <div className="py-10">
-            <NewContactModal isOpen={isNewContactModalOpen} setIsOpen={setIsNewContactModalOpen} addContact={addContact} contacts={authData.contacts}/>
-            <ContactModal contact={openedContact} setContact={setOpenedContact} updateContact={updateContact} deleteContact={deleteContact}/>
+            <NewContactModal isOpen={isNewContactModalOpen} setIsOpen={setIsNewContactModalOpen}/>
+            <ContactModal contact={openedContact} setContact={setOpenedContact}/>
             <div className="flex justify-between">
                 <div className="text-3xl font-medium">Contacts</div>
                 <div className="bg-neutral-100 flex p-1 rounded-md shadow-md">

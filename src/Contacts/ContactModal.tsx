@@ -1,20 +1,16 @@
-import { Dispatch, useState, useEffect, useRef } from 'react';
+import { Dispatch, useState, useEffect, useRef, useContext } from 'react';
 import Modal from 'react-modal';
 import Contact from '../Types/Contact';
-
 import Input from '../common/Input';
-
+import AuthContext from '../contexts/AuthContext';
 import { StarIcon, PencilIcon, TrashIcon, PhoneIcon, MailIcon, HomeIcon, CakeIcon, DocumentTextIcon, CheckIcon } from '@heroicons/react/outline';
-import { DeleteContact, UpdateContact } from '../Types/AuthData';
 
 interface ContactModalProps {
     contact: Contact|null,
     setContact: Dispatch<Contact|null>,
-    updateContact: UpdateContact,
-    deleteContact: DeleteContact,
 }
 
-export default function ContactModal({ contact, setContact, updateContact, deleteContact }: ContactModalProps) {
+export default function ContactModal({ contact, setContact }: ContactModalProps) {
     const [isOpen, setIsOpen] = useState<boolean>(false);
     const [isEdit, setIsEdit] = useState<boolean>(false);
     const editEmailRef = useRef<HTMLInputElement>(null);
@@ -22,6 +18,7 @@ export default function ContactModal({ contact, setContact, updateContact, delet
     const editAddressRef = useRef<HTMLInputElement>(null);
     const editBirthdayRef = useRef<HTMLInputElement>(null);
     const editNotesRef = useRef<HTMLTextAreaElement>(null);
+    const { updateContact, deleteContact } = useContext(AuthContext);
 
     useEffect(() => {
         setIsOpen(contact !== undefined && contact !== null);

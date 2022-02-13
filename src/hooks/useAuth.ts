@@ -2,10 +2,10 @@ import { getAuth, onAuthStateChanged, signOut } from 'firebase/auth';
 import { doc, getDoc, updateDoc } from 'firebase/firestore';
 import { useEffect, useState } from 'react';
 import { database } from '../index';
-import AuthData, { AddContact, DeleteContact, UpdateContact } from '../Types/AuthData';
+import AuthData, { AddContact, Auth, DeleteContact, UpdateContact } from '../Types/AuthData';
 import Contact from '../Types/Contact';
 
-export default function useAuth(): [AuthData|undefined, () => Promise<void>, AddContact, UpdateContact, DeleteContact] {
+export default function useAuth(): Auth {
     const [authData, setAuthData] = useState<AuthData>();
     const auth = getAuth();
 
@@ -24,7 +24,7 @@ export default function useAuth(): [AuthData|undefined, () => Promise<void>, Add
         });
     }, []);
 
-    const realSignOut = () => signOut(auth);
+    const authSignOut = () => signOut(auth);
 
     const addContact = (newContact: Contact) => {
         if (authData?.status !== true || !authData.uid || !authData.contacts) return;
@@ -75,5 +75,11 @@ export default function useAuth(): [AuthData|undefined, () => Promise<void>, Add
         });
     }
 
-    return [authData, realSignOut, addContact, updateContact, deleteContact];
+    return {
+        authData,
+        addContact,
+        updateContact,
+        deleteContact,
+        signOut: authSignOut,
+    }
 }

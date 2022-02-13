@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
+import { AuthContextProvider } from './contexts/AuthContext';
 
 import { initializeApp } from 'firebase/app';
 import { getFirestore } from 'firebase/firestore';
@@ -12,7 +13,9 @@ export const database = getFirestore();
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <AuthContextProvider>
+      <App/>
+    </AuthContextProvider>
   </React.StrictMode>,
   document.getElementById('root')
 );

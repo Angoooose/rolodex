@@ -1,14 +1,12 @@
-import { useEffect } from 'react';
 import useAuth from './hooks/useAuth';
-
 import Auth from './Auth/Auth';
 import Contacts from './Contacts/Contacts';
 import Header from './Header/Header';
-import Contact from './Types/Contact';
+import { useContext } from 'react';
+import AuthContext from './contexts/AuthContext';
 
 export default function App() {
-  const [authData, signOut, addContact, updateContact, deleteContact] = useAuth();
-  
+  const { authData } = useContext(AuthContext);
   if (authData === undefined) return <div/>;
 
   return (
@@ -16,7 +14,7 @@ export default function App() {
       {authData?.status ? (
         <div>
           <Header/>
-          <Contacts authData={authData} addContact={addContact} updateContact={updateContact} deleteContact={deleteContact}/>
+          <Contacts/>
         </div>
       ) : (
         <Auth/>

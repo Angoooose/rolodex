@@ -1,18 +1,17 @@
-import { Dispatch, FormEvent, useRef } from 'react';
+import { Dispatch, FormEvent, useContext, useRef } from 'react';
 import Modal from 'react-modal';
 import Button from '../common/Button';
 import Input from '../common/Input';
-import { AddContact } from '../Types/AuthData';
-import Contact from '../Types/Contact';
+import AuthContext from '../contexts/AuthContext';
 
 interface NewContactModalProps {
     isOpen: boolean,
     setIsOpen: Dispatch<boolean>,
-    addContact: AddContact,
-    contacts: Contact[],
 }
 
-export default function NewContactModal({ isOpen, setIsOpen, addContact, contacts }: NewContactModalProps) {
+export default function NewContactModal({ isOpen, setIsOpen }: NewContactModalProps) {
+    const { authData, addContact } = useContext(AuthContext);
+
     const nameRef = useRef<HTMLInputElement>(null);
     const companyRef = useRef<HTMLInputElement>(null); 
     const emailRef = useRef<HTMLInputElement>(null); 
@@ -39,10 +38,10 @@ export default function NewContactModal({ isOpen, setIsOpen, addContact, contact
     const createContact = (e: FormEvent) => {
         e.preventDefault();
 
-        if (nameRef.current?.value) {
+        if (authData?.contacts && nameRef.current?.value) {
             setIsOpen(false);
             addContact({
-                id: contacts.length + 1,
+                id: authData.contacts.length + 1,
                 name: nameRef.current.value,
                 isFavorited: false,
                 company: companyRef?.current?.value,
