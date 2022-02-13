@@ -7,5 +7,5 @@ export default interface AuthData {
 }
 
 export type AddContact = (newContact: Contact) => void;
-
 export type UpdateContact = (id: number, newValues: Partial<Contact>) => void;
+export type DeleteContact = (id: number) => void;

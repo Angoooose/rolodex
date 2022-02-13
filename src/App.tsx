@@ -7,7 +7,7 @@ import Header from './Header/Header';
 import Contact from './Types/Contact';
 
 export default function App() {
-  const [authData, signOut, addContact, updateContact] = useAuth();
+  const [authData, signOut, addContact, updateContact, deleteContact] = useAuth();
   
   if (authData === undefined) return <div/>;
 
@@ -16,7 +16,7 @@ export default function App() {
       {authData?.status ? (
         <div>
           <Header/>
-          <Contacts authData={authData} addContact={addContact} updateContact={updateContact}/>
+          <Contacts authData={authData} addContact={addContact} updateContact={updateContact} deleteContact={deleteContact}/>
         </div>
       ) : (
         <Auth/>

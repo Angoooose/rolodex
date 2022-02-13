@@ -5,15 +5,16 @@ import Contact from '../Types/Contact';
 import Input from '../common/Input';
 
 import { StarIcon, PencilIcon, TrashIcon, PhoneIcon, MailIcon, HomeIcon, CakeIcon, DocumentTextIcon, CheckIcon } from '@heroicons/react/outline';
-import { UpdateContact } from '../Types/AuthData';
+import { DeleteContact, UpdateContact } from '../Types/AuthData';
 
 interface ContactModalProps {
     contact: Contact|null,
     setContact: Dispatch<Contact|null>,
     updateContact: UpdateContact,
+    deleteContact: DeleteContact,
 }
 
-export default function ContactModal({ contact, setContact, updateContact }: ContactModalProps) {
+export default function ContactModal({ contact, setContact, updateContact, deleteContact }: ContactModalProps) {
     const [isOpen, setIsOpen] = useState<boolean>(false);
     const [isEdit, setIsEdit] = useState<boolean>(false);
     const editEmailRef = useRef<HTMLInputElement>(null);
@@ -43,6 +44,15 @@ export default function ContactModal({ contact, setContact, updateContact }: Con
             birthday: editBirthdayRef.current?.value,
             notes: editNotesRef.current?.value,
         });
+    }
+
+    const handleDelete = () => {
+        if (contact === null) return;
+
+        setIsOpen(false);
+        setIsEdit(false);
+        setContact(null);
+        deleteContact(contact.id);
     }
 
     const customStyles = {
@@ -75,9 +85,9 @@ export default function ContactModal({ contact, setContact, updateContact }: Con
                     {!isEdit ? (
                         <PencilIcon className="p-2 w-10 h-fit rounded-md transition-all cursor-pointer hover:bg-violet-600" onClick={() => setIsEdit(true)}/>
                     ) : (
-                        <CheckIcon className="p-2 w-10 h-fit rounded-md transition-all cursor-pointer hover:bg-violet-600" onClick={() => handleEditSave()}/>
+                        <CheckIcon className="p-2 w-10 h-fit rounded-md transition-all cursor-pointer hover:bg-violet-600" onClick={handleEditSave}/>
                     )}
-                    <TrashIcon className="p-2 w-10 h-fit rounded-md transition-all cursor-pointer text-red-500 hover:bg-violet-600"/>
+                    <TrashIcon className="p-2 w-10 h-fit rounded-md transition-all cursor-pointer text-red-500 hover:bg-violet-600" onClick={handleDelete}/>
                 </div>
             </div>
             <div className="py-3 px-5">

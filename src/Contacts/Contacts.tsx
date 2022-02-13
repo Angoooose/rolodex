@@ -4,7 +4,7 @@ import NewContactModal from './NewContactModal';
 
 import { ViewGridIcon, ViewListIcon } from '@heroicons/react/outline';
 import { useEffect, useState } from 'react';
-import AuthData, { AddContact, UpdateContact } from '../Types/AuthData';
+import AuthData, { AddContact, DeleteContact, UpdateContact } from '../Types/AuthData';
 import Contact from '../Types/Contact';
 import ContactModal from './ContactModal';
 
@@ -12,9 +12,10 @@ interface ContactProps {
     authData: AuthData,
     addContact: AddContact,
     updateContact: UpdateContact,
+    deleteContact: DeleteContact,
 }
 
-export default function Contacts({ authData, addContact, updateContact }: ContactProps) {
+export default function Contacts({ authData, addContact, updateContact, deleteContact }: ContactProps) {
     const [viewType, setViewType] = useState<'grid'|'list'>('grid');
     const [isNewContactModalOpen, setIsNewContactModalOpen] = useState<boolean>(false);
     const [openedContact, setOpenedContact] = useState<Contact|null>(null);
@@ -32,7 +33,7 @@ export default function Contacts({ authData, addContact, updateContact }: Contac
     return (
         <div className="py-10">
             <NewContactModal isOpen={isNewContactModalOpen} setIsOpen={setIsNewContactModalOpen} addContact={addContact} contacts={authData.contacts}/>
-            <ContactModal contact={openedContact} setContact={setOpenedContact} updateContact={updateContact}/>
+            <ContactModal contact={openedContact} setContact={setOpenedContact} updateContact={updateContact} deleteContact={deleteContact}/>
             <div className="flex justify-between">
                 <div className="text-3xl font-medium">Contacts</div>
                 <div className="bg-neutral-100 flex p-1 rounded-md shadow-md">
