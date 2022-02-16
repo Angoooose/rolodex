@@ -1,9 +1,11 @@
-import useAuth from './hooks/useAuth';
+import { useContext } from 'react';
+import { Routes, Route } from 'react-router-dom';
+import AuthContext from './contexts/AuthContext';
+
 import Auth from './Auth/Auth';
 import Contacts from './Contacts/Contacts';
 import Header from './Header/Header';
-import { useContext } from 'react';
-import AuthContext from './contexts/AuthContext';
+import Settings from './Settings/Settings';
 
 export default function App() {
   const { authData } = useContext(AuthContext);
@@ -14,7 +16,10 @@ export default function App() {
       {authData?.status ? (
         <div>
           <Header/>
-          <Contacts/>
+          <Routes>
+            <Route path="/" element={<Contacts/>}/>
+            <Route path="settings" element={<Settings/>}/>
+          </Routes>
         </div>
       ) : (
         <Auth/>

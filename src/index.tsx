@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import { AuthContextProvider } from './contexts/AuthContext';
+import { BrowserRouter } from 'react-router-dom';
 
 import { initializeApp } from 'firebase/app';
 import { getFirestore } from 'firebase/firestore';
@@ -13,9 +14,11 @@ export const database = getFirestore();
 
 ReactDOM.render(
   <React.StrictMode>
-    <AuthContextProvider>
-      <App/>
-    </AuthContextProvider>
+    <BrowserRouter>
+      <AuthContextProvider>
+        <App/>
+      </AuthContextProvider>
+    </BrowserRouter>
   </React.StrictMode>,
   document.getElementById('root')
 );
