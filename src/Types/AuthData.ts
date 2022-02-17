@@ -3,6 +3,7 @@ import Contact from './Contact';
 export default interface AuthData {
     status: boolean,
     uid?: string,
+    email?: string,
     contacts?: Contact[],
 }
 

@@ -2,7 +2,7 @@ import { getAuth, onAuthStateChanged, signOut } from 'firebase/auth';
 import { doc, getDoc, updateDoc } from 'firebase/firestore';
 import { useEffect, useState } from 'react';
 import { database } from '../index';
-import AuthData, { AddContact, Auth, DeleteContact, UpdateContact } from '../Types/AuthData';
+import AuthData, { Auth } from '../Types/AuthData';
 import Contact from '../Types/Contact';
 
 export default function useAuth(): Auth {
@@ -16,6 +16,7 @@ export default function useAuth(): Auth {
                 setAuthData({
                     status: true,
                     uid: user.uid,
+                    email: user.email as string,
                     contacts: userData?.contacts,
                 });
             } else {
