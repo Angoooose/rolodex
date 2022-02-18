@@ -32,6 +32,8 @@ export default function NewContactModal({ isOpen, setIsOpen }: NewContactModalPr
           maxWidth: 475,
           boxShadow: '0px 3px 10px 3px rgba(0,0,0,0.4',
           border: 'none',
+          backgroundColor: document.documentElement.classList.contains('dark') ? '#1e293b' : 'white',
+          color: document.documentElement.classList.contains('dark') ? 'white' : '',
         },
     };
     
@@ -55,7 +57,7 @@ export default function NewContactModal({ isOpen, setIsOpen }: NewContactModalPr
     }
 
     return (
-        <Modal isOpen={isOpen} style={customStyles} onRequestClose={() => setIsOpen(false)}>
+        <Modal isOpen={isOpen} style={customStyles} onRequestClose={() => setIsOpen(false)} overlayClassName="w-full h-full fixed inset-0 dark:bg-slate-700 dark:bg-opacity-60">
             <div className="text-xl font-medium px-5 py-3 bg-violet-500 text-white">New Contact</div>
             <form onSubmit={(e) => createContact(e)}>
                 <div className="px-5 py-2">
@@ -70,7 +72,7 @@ export default function NewContactModal({ isOpen, setIsOpen }: NewContactModalPr
                         </div>
                         <div className="mt-3">
                             Notes
-                            <textarea ref={notesRef} className="w-full border shadow-sm border-neutral-400 focus:ring-1 focus:ring-violet-500 focus:border-violet-500 transition-all rounded-md outline-none py-1 px-2"/>
+                            <textarea ref={notesRef} className="dark:bg-slate-700 dark:border-slate-500 w-full border shadow-sm border-neutral-400 focus:ring-1 focus:ring-violet-500 focus:border-violet-500 transition-all rounded-md outline-none py-1 px-2"/>
                         </div>
                     </div>
                 </div>

@@ -1,4 +1,4 @@
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import AuthContext from './contexts/AuthContext';
 
@@ -6,13 +6,24 @@ import Auth from './Auth/Auth';
 import Contacts from './Contacts/Contacts';
 import Header from './Header/Header';
 import Settings from './Settings/Settings';
+import ThemeContext from './contexts/ThemeContext';
 
 export default function App() {
   const { authData } = useContext(AuthContext);
+  const { theme, useSystemTheme } = useContext(ThemeContext);
+
+  useEffect(() => {
+    if (theme === 'dark' || (useSystemTheme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+      document.documentElement.classList.add('dark')
+    } else {
+      document.documentElement.classList.remove('dark')
+    }
+  }, [theme, useSystemTheme]);
+
   if (authData === undefined) return <div/>;
 
   return (
-    <div className="h-full bg-neutral-300 py-14 px-10">
+    <div className="h-full bg-neutral-300 py-14 px-10 dark:bg-slate-800 dark:text-white">
       {authData?.status ? (
         <div>
           <Header/>

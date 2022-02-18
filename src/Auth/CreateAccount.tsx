@@ -33,7 +33,7 @@ export default function CreateAccount({ setAuthType }: AuthComponent) {
     }
 
     return (
-        <div className="bg-neutral-100 w-fit py-5 px-20 rounded-md m-auto text-center shadow-md">
+        <div className="bg-neutral-100 dark:bg-slate-700 w-fit py-5 px-20 rounded-md m-auto text-center shadow-md">
             <div className="text-2xl font-medium pb-2">Create Account</div>
             <form className="flex flex-col" onSubmit={createAccount}>
                 <Input placeholder="Email" type="email" ref={emailRef} onKeyDown={handleKeyPress} onChange={(e) => setIsDisabled(e.target.value === '' || passwordRef!.current!.value === '')}/>

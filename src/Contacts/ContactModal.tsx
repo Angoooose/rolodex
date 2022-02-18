@@ -4,6 +4,7 @@ import Contact from '../Types/Contact';
 import Input from '../common/Input';
 import AuthContext from '../contexts/AuthContext';
 import { StarIcon, PencilIcon, TrashIcon, PhoneIcon, MailIcon, HomeIcon, CakeIcon, DocumentTextIcon, CheckIcon } from '@heroicons/react/outline';
+import ThemeContext from '../contexts/ThemeContext';
 
 interface ContactModalProps {
     contact: Contact|null,
@@ -65,13 +66,15 @@ export default function ContactModal({ contact, setContact }: ContactModalProps)
           minWidth: 475,
           boxShadow: '0px 3px 10px 3px rgba(0,0,0,0.4)',
           border: 'none',
+          backgroundColor: document.documentElement.classList.contains('dark') ? '#1e293b' : 'white',
+          color: document.documentElement.classList.contains('dark') ? 'white' : '',
         },
     };
 
     if (!contact) return <div/>;
 
     return (
-        <Modal isOpen={isOpen} style={customStyles} onRequestClose={handleClose}>
+        <Modal isOpen={isOpen} style={customStyles} onRequestClose={handleClose} overlayClassName="w-full h-full fixed inset-0 dark:bg-slate-700 dark:bg-opacity-60">
             <div className="py-3 px-5 bg-violet-500 text-white flex align-center justify-between">
                 <div className="flex flex-col justify-center">
                     <div className="text-2xl font-medium">{contact?.name}</div>
@@ -124,12 +127,12 @@ export default function ContactModal({ contact, setContact }: ContactModalProps)
                     </div>
                 )}
                 <div className="mt-5">
-                    <div className="flex items-center text-gray-500">
-                        <DocumentTextIcon className="w-5 mr-1"/>
+                    <div className="flex items-center">
+                        <DocumentTextIcon className="w-5 mr-1 text-gray-500"/>
                         Notes
                     </div>
                     {!isEdit ? (
-                            <div className="bg-neutral-100 p-2 rounded-md mt-1 border">
+                            <div className="bg-neutral-100 dark:bg-slate-700 dark:border-slate-600 dark: p-2 rounded-md mt-1 border">
                                 {contact.notes ? (
                                     <div>{contact.notes}</div>
                                 ) : (
@@ -138,7 +141,7 @@ export default function ContactModal({ contact, setContact }: ContactModalProps)
                             </div>
                         ) : (
                             <textarea
-                                className="w-full border shadow-sm border-neutral-400 focus:ring-1 focus:ring-violet-500 focus:border-violet-500 transition-all rounded-md outline-none py-1 px-2"
+                                className="dark:bg-slate-700 dark:border-slate-500 w-full border shadow-sm border-neutral-400 focus:ring-1 focus:ring-violet-500 focus:border-violet-500 transition-all rounded-md outline-none py-1 px-2"
                                 defaultValue={contact.notes}
                                 ref={editNotesRef}
                             />

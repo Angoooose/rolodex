@@ -30,9 +30,9 @@ export default function Contacts() {
             <ContactModal contact={openedContact} setContact={setOpenedContact}/>
             <div className="flex justify-between">
                 <div className="text-3xl font-medium">Contacts</div>
-                <div className="bg-neutral-100 flex p-1 rounded-md shadow-md">
-                    <ViewGridIcon className={`w-8 cursor-pointer transition-all ${viewType === 'grid' ? 'text-black' : 'text-gray-500'}`} onClick={() => setViewType('grid')}/>
-                    <ViewListIcon className={`w-8 cursor-pointer transition-all ${viewType === 'list' ? 'text-black' : 'text-gray-500'}`} onClick={() => setViewType('list')}/>
+                <div className="bg-neutral-100 dark:bg-slate-700 flex p-1 rounded-md shadow-md">
+                    <ViewGridIcon className={`w-8 cursor-pointer transition-all ${viewType === 'grid' ? 'text-black dark:text-white' : 'text-gray-500'}`} onClick={() => setViewType('grid')}/>
+                    <ViewListIcon className={`w-8 cursor-pointer transition-all ${viewType === 'list' ? 'text-black dark:text-white' : 'text-gray-500'}`} onClick={() => setViewType('list')}/>
                 </div>
             </div>
             <div className={`flex -mx-4 flex-wrap ${viewType === 'list' ? 'flex-col justify-center items-center' : ''}`}>

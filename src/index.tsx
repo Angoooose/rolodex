@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import { AuthContextProvider } from './contexts/AuthContext';
+import { ThemeContextProvider } from './contexts/ThemeContext';
 import { BrowserRouter } from 'react-router-dom';
 
 import { initializeApp } from 'firebase/app';
@@ -16,7 +17,9 @@ ReactDOM.render(
   <React.StrictMode>
     <BrowserRouter>
       <AuthContextProvider>
-        <App/>
+        <ThemeContextProvider>
+          <App/>
+        </ThemeContextProvider>
       </AuthContextProvider>
     </BrowserRouter>
   </React.StrictMode>,

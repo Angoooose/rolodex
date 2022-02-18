@@ -9,7 +9,7 @@ export default function Button(props: ButtonProps) {
         {...props}
         className={`${props.className} py-1 px-2 rounded-md transition-all my-1 disabled:opacity-50 disabled:cursor-not-allowed
             ${props.color === 'secondary' ? (
-                'text-black hover:bg-neutral-200'
+                'text-black dark:text-white hover:bg-neutral-200 dark:hover:bg-slate-700'
             ) : (`
                 text-white
                 ${props.color === 'danger' ? (

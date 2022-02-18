@@ -26,13 +26,13 @@ export default function SignIn({ setAuthType }: AuthComponent) {
     }
 
     return (
-        <div className="bg-neutral-100 w-fit py-5 px-20 rounded-md m-auto text-center shadow-md">
+        <div className="bg-neutral-100 dark:bg-slate-700 w-fit py-5 px-20 rounded-md m-auto text-center shadow-md">
             <div className="text-2xl font-medium pb-2">Sign In</div>
             <form className="flex flex-col" onSubmit={signIn}>
                 <Input placeholder="Email" type="email" ref={emailRef} onKeyDown={handleKeyPress}  onChange={(e) => setIsDisabled(e.target.value === '' || passwordRef!.current!.value === '')}/>
                 <Input placeholder="Password" type="password" ref={passwordRef} onChange={(e) => setIsDisabled(e.target.value === '' || emailRef!.current!.value === '')}/>
                 <Button disabled={isDisabled}>Sign In</Button>
-                <div>or <span className="text-blue-600 cursor-pointer hover:underline" onClick={() => setAuthType('create')}>create an account</span>.</div>
+                <div>or <span className="text-violet-500 cursor-pointer hover:underline" onClick={() => setAuthType('create')}>create an account</span>.</div>
             </form>
         </div>
     );
