@@ -10,7 +10,7 @@ export default forwardRef<HTMLInputElement, InputProps>((props, ref) => {
     return (
         <div className="my-0.5">
             {props.label && <div>{props.isRequired && <span className="text-red-600 font-bold">* </span>}{props.label}</div>}
-            <div className={`dark:bg-slate-700 flex items-center w-fit shadow-sm transition-all rounded-md border border-neutral-400 dark:border-slate-500 focus-within:ring-1 focus-within:ring-violet-500 focus-within:border-violet-500 ${props.className}`}>
+            <div className={`bg-white dark:bg-slate-700 flex items-center w-fit shadow-sm transition-all rounded-md border border-neutral-400 dark:border-slate-500 focus-within:ring-1 focus-within:ring-violet-500 focus-within:border-violet-500 ${props.className}`}>
                 {props.icon && <props.icon className="w-5 ml-2 text-gray-500"/>}
                 <input
                     {...props}
