@@ -5,6 +5,7 @@ import Input from '../common/Input';
 import AuthContext from '../contexts/AuthContext';
 import { StarIcon, PencilIcon, TrashIcon, PhoneIcon, MailIcon, HomeIcon, CakeIcon, DocumentTextIcon, CheckIcon } from '@heroicons/react/outline';
 import ThemeContext from '../contexts/ThemeContext';
+import TransparentInput from '../common/TransparentInput';
 
 interface ContactModalProps {
     contact: Contact|null,
@@ -12,14 +13,18 @@ interface ContactModalProps {
 }
 
 export default function ContactModal({ contact, setContact }: ContactModalProps) {
+    const { updateContact, deleteContact } = useContext(AuthContext);
+
     const [isOpen, setIsOpen] = useState<boolean>(false);
     const [isEdit, setIsEdit] = useState<boolean>(false);
+
+    const editNameRef = useRef<HTMLInputElement>(null);
+    const editCompanyRef = useRef<HTMLInputElement>(null);
     const editEmailRef = useRef<HTMLInputElement>(null);
     const editPhoneRef = useRef<HTMLInputElement>(null);
     const editAddressRef = useRef<HTMLInputElement>(null);
     const editBirthdayRef = useRef<HTMLInputElement>(null);
     const editNotesRef = useRef<HTMLTextAreaElement>(null);
-    const { updateContact, deleteContact } = useContext(AuthContext);
 
     useEffect(() => {
         setIsOpen(contact !== undefined && contact !== null);
@@ -36,6 +41,8 @@ export default function ContactModal({ contact, setContact }: ContactModalProps)
 
         setIsEdit(false);
         updateContact(contact.id, {
+            name: editNameRef.current?.value ? editNameRef.current?.value : contact.name,
+            company: editCompanyRef.current?.value,
             email: editEmailRef.current?.value,
             phone: editPhoneRef.current?.value,
             address: editAddressRef.current?.value,
@@ -74,12 +81,19 @@ export default function ContactModal({ contact, setContact }: ContactModalProps)
     if (!contact) return <div/>;
 
     return (
-        <Modal isOpen={isOpen} style={customStyles} onRequestClose={handleClose} overlayClassName="w-full h-full fixed inset-0 dark:bg-slate-700 dark:bg-opacity-60">
+        <Modal isOpen={isOpen} style={customStyles} onRequestClose={handleClose} overlayClassName="w-full h-full fixed inset-0 bg-neutral-300 bg-opacity-60 dark:bg-slate-700 dark:bg-opacity-60">
             <div className="py-3 px-5 bg-violet-500 text-white flex align-center justify-between">
-                <div className="flex flex-col justify-center">
-                    <div className="text-2xl font-medium">{contact?.name}</div>
-                    {contact?.company && <div className="text-neutral-200">{contact.company}</div>}
-                </div>
+                {isEdit ? (
+                    <div className="flex flex-col justify-center bg-violet-500">
+                        <TransparentInput className="text-2xl font-medium" defaultValue={contact.name} placeholder="Name" ref={editNameRef}/>
+                        <TransparentInput className="text-neutral-200" defaultValue={contact.company} placeholder="Company" ref={editCompanyRef}/>
+                    </div>
+                ) : (
+                    <div className="flex flex-col justify-center">
+                        <div className="text-2xl font-medium">{contact?.name}</div>
+                        {contact?.company && <div className="text-neutral-200">{contact.company}</div>}
+                    </div>
+                )}
                 <div className="flex items-center">
                     <StarIcon className={`p-2 w-10 h-fit rounded-md transition-all cursor-pointer hover:bg-violet-600 ${contact.isFavorited ? 'text-yellow-400' : ''}`} onClick={() => updateContact(contact.id, { isFavorited: !contact.isFavorited })} />
                     {!isEdit ? (

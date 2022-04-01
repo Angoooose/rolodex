@@ -57,7 +57,7 @@ export default function NewContactModal({ isOpen, setIsOpen }: NewContactModalPr
     }
 
     return (
-        <Modal isOpen={isOpen} style={customStyles} onRequestClose={() => setIsOpen(false)} overlayClassName="w-full h-full fixed inset-0 dark:bg-slate-700 dark:bg-opacity-60">
+        <Modal isOpen={isOpen} style={customStyles} onRequestClose={() => setIsOpen(false)} overlayClassName="w-full h-full fixed inset-0 bg-neutral-300 bg-opacity-60 dark:bg-slate-700 dark:bg-opacity-60">
             <div className="text-xl font-medium px-5 py-3 bg-violet-500 text-white">New Contact</div>
             <form onSubmit={(e) => createContact(e)}>
                 <div className="px-5 py-2">
