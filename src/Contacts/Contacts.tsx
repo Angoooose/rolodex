@@ -33,7 +33,7 @@ export default function Contacts() {
             <div className="flex justify-between">
                 <span className="text-3xl font-medium">Contacts</span>
                 <div className="flex items-center">
-                    <Input placeholder="Search" icon={SearchIcon} className="mr-5" onChange={(el) => setSearchValue(el.target.value)}/>
+                    <Input placeholder="Search" icon={SearchIcon} className="mr-5" onChange={(el) => setSearchValue(el.target.value.toLowerCase())}/>
                     <div className="bg-white dark:bg-slate-700 flex p-1 rounded-md shadow-md">
                         <ViewGridIcon className={`w-8 cursor-pointer transition-all ${viewType === 'grid' ? 'text-black dark:text-white' : 'text-gray-500'}`} onClick={() => setViewType('grid')}/>
                         <ViewListIcon className={`w-8 cursor-pointer transition-all ${viewType === 'list' ? 'text-black dark:text-white' : 'text-gray-500'}`} onClick={() => setViewType('list')}/>
@@ -41,7 +41,17 @@ export default function Contacts() {
                 </div>
             </div>
             <div className={`flex -mx-4 flex-wrap ${viewType === 'list' ? 'flex-col items-center' : ''}`}>
-                {authData.contacts.filter(c => searchValue === '' || c.name.toLowerCase().includes(searchValue)).sort(c => c.isFavorited ? -1 : 1).map(contact => <ContactCard contact={contact} setOpenedContact={setOpenedContact}/>)}
+                {authData.contacts.filter(c => {
+                    if (!searchValue) return true;
+                    let isValid: boolean = false;
+
+                    Object.values(c).forEach((v) => {
+                        if (typeof v !== 'string') return;
+                        if (v.toLowerCase().includes(searchValue)) isValid = true;
+                    });
+
+                    return isValid;
+                }).sort(c => c.isFavorited ? -1 : 1).map(contact => <ContactCard contact={contact} setOpenedContact={setOpenedContact}/>)}
                 <CreateCard setIsModalOpen={setIsNewContactModalOpen}/>
             </div>
         </div>
