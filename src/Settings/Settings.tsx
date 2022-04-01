@@ -3,7 +3,6 @@ import AuthContext from '../contexts/AuthContext';
 import Button from '../common/Button';
 import SettingsCard from './SettingsCard';
 import Switch from '../common/Switch';
-import { useState } from 'react';
 import ThemeContext from '../contexts/ThemeContext';
 
 export default function Settings() {
@@ -20,7 +19,7 @@ export default function Settings() {
             <SettingsCard>
                 <h1 className="text-2xl font-medium">Theme</h1>
                 <Switch label="Dark Mode" switched={theme === 'dark'} onSwitch={() => updateTheme(theme === 'dark' ? 'light' : 'dark')}/>
-                <Switch label="Use System Theme" switched={useSystemTheme} onSwitch={() => updateUseSystemTheme(!useSystemTheme)}/>
+                <Switch label="Use System Theme" switched={useSystemTheme ? useSystemTheme : false} onSwitch={() => updateUseSystemTheme(!useSystemTheme)}/>
             </SettingsCard>
         </div>
     );

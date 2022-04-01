@@ -1,7 +1,7 @@
 export type Theme = 'light'|'dark';
 export default interface ThemeData {
-    theme: Theme,
+    theme: Theme|undefined,
     updateTheme: (newValue: Theme) => void,
-    useSystemTheme: boolean,
+    useSystemTheme: boolean|undefined,
     updateUseSystemTheme: (newValue: boolean) => void,
 }

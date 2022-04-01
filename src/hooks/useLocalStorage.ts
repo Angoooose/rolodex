@@ -1,13 +1,22 @@
 import { useEffect, useState } from 'react';
 
-export default function useLocalStorage<T>(key: string, defaultValue: T): [T, (newValue: T) => void] {
-    const [value, setValue] = useState<T>(localStorage.getItem(key) ? localStorage.getItem(key) as unknown as T : defaultValue);
+export default function useLocalStorage<T>(key: string, defaultValue: T): [T|undefined, (newValue: T) => void] {
+    const [value, setValue] = useState<T>();
 
     useEffect(() => {
-        if (!localStorage.getItem(key)) {
+        let value = localStorage.getItem(key);
+        if (value === null) {
             localStorage.setItem(key, defaultValue as unknown as string);
+            setValue(defaultValue);
+        } else {
+            if (typeof defaultValue === 'boolean') {
+                let boolean = value === 'true';
+                setValue(boolean as unknown as T);
+            } else {
+                setValue(value as unknown as T);
+            }
         }
-    });
+    }, []);
 
     const updateValue = (newValue: T): void => {
         localStorage.setItem(key, newValue as unknown as string);
