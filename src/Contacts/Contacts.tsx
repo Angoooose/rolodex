@@ -10,7 +10,6 @@ import NewContactModal from './NewContactModal';
 import Input from '../common/Input';
 
 export default function Contacts() {
-    const [viewType, setViewType] = useState<'grid'|'list'>('grid');
     const [isNewContactModalOpen, setIsNewContactModalOpen] = useState<boolean>(false);
     const [openedContact, setOpenedContact] = useState<Contact|null>(null);
     const [searchValue, setSearchValue] = useState<string>('');
@@ -30,17 +29,11 @@ export default function Contacts() {
         <div className="py-10">
             <NewContactModal isOpen={isNewContactModalOpen} setIsOpen={setIsNewContactModalOpen}/>
             <ContactModal contact={openedContact} setContact={setOpenedContact}/>
-            <div className="flex justify-between">
+            <div className="flex justify-between flex-wrap">
                 <span className="text-3xl font-medium">Contacts</span>
-                <div className="flex items-center">
-                    <Input placeholder="Search" icon={SearchIcon} className="mr-5" onChange={(el) => setSearchValue(el.target.value.toLowerCase())}/>
-                    <div className="bg-white dark:bg-slate-700 flex p-1 rounded-md shadow-md">
-                        <ViewGridIcon className={`w-8 cursor-pointer transition-all ${viewType === 'grid' ? 'text-black dark:text-white' : 'text-gray-500'}`} onClick={() => setViewType('grid')}/>
-                        <ViewListIcon className={`w-8 cursor-pointer transition-all ${viewType === 'list' ? 'text-black dark:text-white' : 'text-gray-500'}`} onClick={() => setViewType('list')}/>
-                    </div>
-                </div>
+                <Input placeholder="Search" icon={SearchIcon} onChange={(el) => setSearchValue(el.target.value.toLowerCase())}/>
             </div>
-            <div className={`flex -mx-4 flex-wrap ${viewType === 'list' ? 'flex-col items-center' : ''}`}>
+            <div className="flex -mx-4 flex-wrap">
                 {authData.contacts.filter(c => {
                     if (!searchValue) return true;
                     let isValid: boolean = false;

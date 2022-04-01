@@ -23,7 +23,7 @@ export default function App() {
   if (authData === undefined) return <div/>;
 
   return (
-    <div className="h-full bg-neutral-300 py-14 px-10 dark:bg-slate-800 dark:text-white">
+    <div className="min-h-screen bg-neutral-300 py-14 px-10 dark:bg-slate-800 dark:text-white">
       {authData?.status ? (
         <div>
           <Header/>
