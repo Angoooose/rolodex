@@ -7,6 +7,7 @@ import Contacts from './Contacts/Contacts';
 import Header from './Header/Header';
 import Settings from './Settings/Settings';
 import ThemeContext from './contexts/ThemeContext';
+import NotFound from './NotFound';
 
 export default function App() {
   const { authData } = useContext(AuthContext);
@@ -30,6 +31,7 @@ export default function App() {
           <Routes>
             <Route path="/" element={<Contacts/>}/>
             <Route path="settings" element={<Settings/>}/>
+            <Route path="*" element={<NotFound/>}/>
           </Routes>
         </div>
       ) : (
