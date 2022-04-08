@@ -1,6 +1,7 @@
 import { useRef, useState, KeyboardEvent, FormEvent } from 'react';
 import Button from '../common/Button';
 import Input from '../common/Input';
+import AuthError from './AuthError';
 import AuthComponent from '../Types/AuthComponent';
 
 import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
@@ -9,6 +10,7 @@ import { database } from '../index';
 
 export default function CreateAccount({ setAuthType }: AuthComponent) {
     const [isDisabled, setIsDisabled] = useState<boolean>(true);
+    const [errorField, setErrorField] = useState<string>();
     const emailRef = useRef<HTMLInputElement>(null);
     const passwordRef = useRef<HTMLInputElement>(null);
 
@@ -28,6 +30,14 @@ export default function CreateAccount({ setAuthType }: AuthComponent) {
                     uid: res.user.uid,
                     contacts: [],
                 });
+            }).catch((error) => {
+                if (error.code === 'auth/weak-password') {
+                    setErrorField('Password too weak.');
+                } else if (error.code === 'auth/email-already-in-use') {
+                    setErrorField('Account already exists.');
+                }  else {
+                    setErrorField('Unknown Error.');
+                }
             });
         }
     }
@@ -35,11 +45,12 @@ export default function CreateAccount({ setAuthType }: AuthComponent) {
     return (
         <div className="bg-neutral-100 dark:bg-slate-700 w-fit py-5 px-20 rounded-md m-auto text-center shadow-md">
             <div className="text-2xl font-medium pb-2">Create Account</div>
+            <AuthError message={errorField}/>
             <form className="flex flex-col" onSubmit={createAccount}>
                 <Input placeholder="Email" type="email" ref={emailRef} onKeyDown={handleKeyPress} onChange={(e) => setIsDisabled(e.target.value === '' || passwordRef!.current!.value === '')}/>
                 <Input placeholder="Password" type="password" ref={passwordRef} onChange={(e) => setIsDisabled(e.target.value === '' || emailRef!.current!.value === '')}/>
-                <Button type="submit" disabled={isDisabled}>Create Account</Button>
-                <div>or <span className="text-blue-600 cursor-pointer hover:underline" onClick={() => setAuthType('signIn')}>login</span>.</div>
+                <Button className="mx-1" type="submit" disabled={isDisabled}>Create Account</Button>
+                <div>or <span className="text-violet-400 cursor-pointer hover:underline" onClick={() => setAuthType('signIn')}>login</span>.</div>
             </form>
         </div>
     );
