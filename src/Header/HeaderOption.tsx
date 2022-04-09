@@ -15,12 +15,12 @@ export default function HeaderOption({ type }: HeaderOptionProps) {
             {type === 'contacts' ? (
                 <div className="flex justify-center items-center">
                     <ViewGridIcon className="w-7 mr-1"/>
-                    Contacts
+                    <span className="hidden xs:block">Contacts</span>
                 </div>
             ) : (
                 <div className="flex justify-center items-center">
                     <CogIcon className="w-7 mr-1"/>
-                    Settings
+                    <span className="hidden xs:block">Settings</span>
                 </div>
             )}
         </Link>
