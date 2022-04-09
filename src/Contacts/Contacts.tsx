@@ -1,4 +1,4 @@
-import { ViewGridIcon, ViewListIcon, SearchIcon } from '@heroicons/react/outline';
+import { SearchIcon } from '@heroicons/react/outline';
 import { useContext, useEffect, useState } from 'react';
 import AuthContext from '../contexts/AuthContext';
 
@@ -8,11 +8,13 @@ import ContactCard from './ContactCard';
 import CreateCard from './CreateCard';
 import NewContactModal from './NewContactModal';
 import Input from '../common/Input';
+import useDebounce from '../hooks/useDebounce';
 
 export default function Contacts() {
     const [isNewContactModalOpen, setIsNewContactModalOpen] = useState<boolean>(false);
     const [openedContact, setOpenedContact] = useState<Contact|null>(null);
     const [searchValue, setSearchValue] = useState<string>('');
+    const debouncedSearchValue = useDebounce(searchValue, 500);
     const { authData } = useContext(AuthContext);
     
     useEffect(() => {
@@ -35,12 +37,12 @@ export default function Contacts() {
             </div>
             <div className="flex -mx-4 flex-wrap">
                 {authData.contacts.filter(c => {
-                    if (!searchValue) return true;
+                    if (!debouncedSearchValue) return true;
                     let isValid: boolean = false;
 
                     Object.values(c).forEach((v) => {
                         if (typeof v !== 'string') return;
-                        if (v.toLowerCase().includes(searchValue)) isValid = true;
+                        if (v.toLowerCase().includes(debouncedSearchValue)) isValid = true;
                     });
 
                     return isValid;
@@ -48,5 +50,5 @@ export default function Contacts() {
                 <CreateCard setIsModalOpen={setIsNewContactModalOpen}/>
             </div>
         </div>
-    )
+    );
 }
