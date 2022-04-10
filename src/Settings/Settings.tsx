@@ -12,14 +12,14 @@ export default function Settings() {
     const { theme, updateTheme, useSystemTheme, updateUseSystemTheme } = useContext(ThemeContext);
 
     return (
-        <div className="flex">
+        <div className="flex flex-wrap justify-center items-center gap-x-5">
             <SettingsCard>
                 <div className="flex items-center">
                     <h1 className="text-2xl font-medium">Account</h1>
                     <hr className="w-full ml-3 border-neutral-300 dark:border-slate-500"/>
                 </div>
-                <div className="flex items-center"><MailIcon className="w-5 mr-1 text-sky-500"/> <span className="text-gray-400">{authData?.email}</span></div>
-                <div className="flex items-center"><LockClosedIcon className="w-5 mr-1 text-green-400"/> <span className="text-gray-400">Hidden</span></div>
+                <div className="flex items-center"><MailIcon className="w-5 mr-1 text-sky-500"/> <span className="text-gray-500 dark:text-gray-400">{authData?.email}</span></div>
+                <div className="flex items-center"><LockClosedIcon className="w-5 mr-1 text-green-500"/> <span className="text-gray-500 dark:text-gray-400">Hidden</span></div>
                 <Button color="danger" className="w-full" onClick={signOut}>Signout</Button> 
             </SettingsCard>
             <SettingsCard>
